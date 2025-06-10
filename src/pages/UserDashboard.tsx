@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, MapPin, Upload, FileText, AlertCircle, TrendingUp, Users, Award, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const UserDashboard = () => {
   const [content, setContent] = useState('');
@@ -128,7 +129,7 @@ const UserDashboard = () => {
             stroke="currentColor"
             strokeWidth="8"
             fill="transparent"
-            className="text-gray-200"
+            className="text-gray-200 dark:text-gray-700"
           />
           <circle
             cx="50"
@@ -143,35 +144,38 @@ const UserDashboard = () => {
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-lg font-bold text-gray-800">{percentage}%</span>
+          <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{percentage}%</span>
         </div>
       </div>
-      <span className="text-sm font-medium text-gray-700">{label}</span>
+      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-background/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+              <Link to="/" className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">
                 <ArrowLeft className="h-5 w-5" />
                 <span>Back</span>
               </Link>
               <div className="flex items-center space-x-3">
                 <Shield className="h-8 w-8 text-blue-600" />
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">User Portal</h1>
-                  <p className="text-sm text-gray-600">Report & Analyze Content</p>
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">User Portal</h1>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Report & Analyze Content</p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <MapPin className="h-4 w-4" />
-              <span>{location}</span>
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+              <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                <MapPin className="h-4 w-4" />
+                <span>{location}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -184,19 +188,19 @@ const UserDashboard = () => {
           <div className="lg:col-span-2 space-y-8">
             
             {/* Content Input Section */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Content Analysis</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Content Analysis</h2>
               
               <div className="space-y-6">
                 {/* Content Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Content to Analyze
                   </label>
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full h-32 p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Paste WhatsApp messages, Instagram captions, LinkedIn messages, or any content you want to analyze..."
                   />
                 </div>
@@ -204,26 +208,26 @@ const UserDashboard = () => {
                 {/* Sender and Platform */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Sender Name
                     </label>
                     <input
                       type="text"
                       value={senderName}
                       onChange={(e) => setSenderName(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       placeholder="Who sent this message?"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Platform/Application
                     </label>
                     <select
                       value={platform}
                       onChange={(e) => setPlatform(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       <option value="">Select Platform</option>
                       <option value="WhatsApp">WhatsApp</option>
@@ -239,14 +243,14 @@ const UserDashboard = () => {
                 {/* Other Platform Input */}
                 {platform === 'Other' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Specify Platform
                     </label>
                     <input
                       type="text"
                       value={otherPlatform}
                       onChange={(e) => setOtherPlatform(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       placeholder="Enter platform name"
                     />
                   </div>
@@ -265,8 +269,8 @@ const UserDashboard = () => {
 
             {/* Analysis Results */}
             {analysisResults && (
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Analysis Results</h3>
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Analysis Results</h3>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                   <ProgressCircle 
@@ -293,12 +297,12 @@ const UserDashboard = () => {
 
                 {/* Severity Alert */}
                 {Math.max(analysisResults.bullying, analysisResults.harassment, analysisResults.abusive) > 60 && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
                     <div className="flex items-start space-x-3">
-                      <AlertCircle className="h-6 w-6 text-red-600 mt-1" />
+                      <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400 mt-1" />
                       <div>
-                        <h4 className="font-semibold text-red-800">High Risk Content Detected</h4>
-                        <p className="text-red-700 text-sm">
+                        <h4 className="font-semibold text-red-800 dark:text-red-200">High Risk Content Detected</h4>
+                        <p className="text-red-700 dark:text-red-300 text-sm">
                           This content shows significant signs of harassment or bullying. We recommend reporting this incident.
                         </p>
                       </div>
@@ -310,19 +314,19 @@ const UserDashboard = () => {
 
             {/* Reporting Section */}
             {analysisResults && (
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Report Incident</h3>
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Report Incident</h3>
                 
                 <div className="space-y-6">
                   {/* Proof Upload */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                       Provide Proof (Optional)
                     </label>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                        <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-blue-400 dark:hover:border-blue-500 transition-colors">
+                        <Upload className="h-8 w-8 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
                         <input
                           type="file"
                           accept="image/*"
@@ -332,18 +336,18 @@ const UserDashboard = () => {
                         />
                         <label
                           htmlFor="screenshot-upload"
-                          className="cursor-pointer text-sm text-gray-600 hover:text-blue-600"
+                          className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                         >
                           Upload Screenshot
                         </label>
                       </div>
                       
                       <div className="space-y-2">
-                        <FileText className="h-6 w-6 text-gray-400" />
+                        <FileText className="h-6 w-6 text-gray-400 dark:text-gray-500" />
                         <textarea
                           value={proofText}
                           onChange={(e) => setProofText(e.target.value)}
-                          className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                          className="w-full h-24 p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="Paste additional text proof..."
                         />
                       </div>
@@ -366,26 +370,26 @@ const UserDashboard = () => {
           <div className="space-y-6">
             
             {/* Trust Indicators */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Public Trust & Impact</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Public Trust & Impact</h3>
               
               <div className="space-y-6">
                 <div className="text-center">
                   <TrendingUp className="h-8 w-8 text-green-600 mx-auto mb-2" />
                   <div className="text-3xl font-bold text-green-600">{counters.resolved.toLocaleString()}</div>
-                  <div className="text-sm text-gray-600">Issues Resolved This Year</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Issues Resolved This Year</div>
                 </div>
                 
                 <div className="text-center">
                   <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                   <div className="text-3xl font-bold text-blue-600">{counters.impacted.toLocaleString()}</div>
-                  <div className="text-sm text-gray-600">Lives Impacted Positively</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Lives Impacted Positively</div>
                 </div>
                 
                 <div className="text-center">
                   <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                   <div className="text-3xl font-bold text-purple-600">{counters.trust}%</div>
-                  <div className="text-sm text-gray-600">Community Trust Score</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Community Trust Score</div>
                 </div>
               </div>
             </div>
