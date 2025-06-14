@@ -37,9 +37,9 @@ const GoogleMapsHeatmap: React.FC = () => {
           libraries: ['visualization', 'geometry']
         });
 
-        const { Map } = await loader.importLibrary('maps');
+        await loader.load();
         
-        const mapInstance = new Map(mapRef.current, {
+        const mapInstance = new google.maps.Map(mapRef.current, {
           center: { lat: 30.7333, lng: 76.7794 }, // Chandigarh center
           zoom: 13,
           mapTypeId: 'roadmap',
