@@ -49,10 +49,20 @@ const Auth = () => {
     }
   };
 
+  const handleGoAhead = () => {
+    // Direct navigation to dashboard portal based on user type
+    if (userType === 'police') {
+      navigate('/police-dashboard');
+    } else {
+      navigate('/user-dashboard');
+    }
+  };
+
   const handleGoogleAuth = () => {
     // TODO: Implement Google OAuth with backend
     // window.location.href = '/api/auth/google';
     console.log('Google authentication would be handled here');
+    handleGoAhead(); // For demo purposes
   };
 
   return (
@@ -140,7 +150,6 @@ const Auth = () => {
               </div>
             )}
 
-            {/* Email field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address
@@ -159,7 +168,6 @@ const Auth = () => {
               </div>
             </div>
 
-            {/* Password field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
@@ -185,7 +193,6 @@ const Auth = () => {
               </div>
             </div>
 
-            {/* Confirm Password field (only for signup) */}
             {!isLogin && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -213,14 +220,12 @@ const Auth = () => {
               </div>
             )}
 
-            {/* Forgot Password (only for login) */}
             {isLogin && (
               <div className="text-right">
                 <button
                   type="button"
                   className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                   onClick={() => {
-                    // TODO: Implement forgot password functionality
                     console.log('Forgot password clicked');
                   }}
                 >
@@ -250,7 +255,7 @@ const Auth = () => {
             type="button"
             onClick={handleGoogleAuth}
             variant="outline"
-            className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 py-3 rounded-lg font-semibold transition-all duration-300"
+            className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 py-3 rounded-lg font-semibold transition-all duration-300 mb-4"
           >
             <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
               <path
@@ -271,6 +276,15 @@ const Auth = () => {
               />
             </svg>
             Continue with Google
+          </Button>
+
+          {/* Go Ahead Button */}
+          <Button
+            type="button"
+            onClick={handleGoAhead}
+            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 rounded-lg font-semibold transition-all duration-300"
+          >
+            Go Ahead to Dashboard Portal
           </Button>
 
           {/* Toggle between Login/Signup */}

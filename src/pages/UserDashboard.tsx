@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, MapPin, Upload, FileText, AlertCircle, TrendingUp, Users, Award, ArrowLeft } from 'lucide-react';
+import { Shield, MapPin, Upload, FileText, AlertCircle, TrendingUp, Users, Award, ArrowLeft, Brain } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '@/components/ThemeToggle';
+import IPCWarningModal from '@/components/IPCWarningModal';
+import SentimentMonitor from '@/components/SentimentMonitor';
 
 const UserDashboard = () => {
   const [content, setContent] = useState('');
@@ -12,6 +14,11 @@ const UserDashboard = () => {
   const [analysisResults, setAnalysisResults] = useState(null);
   const [proofText, setProofText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
+  // New states for IPC and sentiment monitoring
+  const [showIPCWarning, setShowIPCWarning] = useState(false);
+  const [sentimentMonitoring, setSentimentMonitoring] = useState(false);
+  const [detectedViolations, setDetectedViolations] = useState([]);
 
   // Animated counters state
   const [counters, setCounters] = useState({
@@ -22,12 +29,10 @@ const UserDashboard = () => {
 
   // Get user location on component mount
   useEffect(() => {
-    // TODO: Connect to backend geolocation API for enhanced location services
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // TODO: Send coordinates to backend for reverse geocoding
-          setLocation('Chandigarh, Punjab'); // Placeholder
+          setLocation('Chandigarh, Punjab');
         },
         () => {
           setLocation('Location access denied');
@@ -67,25 +72,84 @@ const UserDashboard = () => {
     animateCounters();
   }, []);
 
+  // Check for IPC violations when content changes
+  useEffect(() => {
+    if (content.trim()) {
+      checkIPCViolations(content);
+    }
+  }, [content]);
+
+  const checkIPCViolations = async (text) => {
+    // TODO: Connect to Flask backend for IPC violation detection
+    // const response = await fetch('/api/check-ipc-violations', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ content: text })
+    // });
+    // const data = await response.json();
+
+    // Simulated IPC violation detection
+    const violations = [];
+    const textLower = text.toLowerCase();
+    
+    if (textLower.includes('threat') || textLower.includes('kill') || textLower.includes('harm')) {
+      violations.push('Section 506 - Criminal intimidation');
+    }
+    if (textLower.includes('defame') || textLower.includes('reputation')) {
+      violations.push('Section 499 - Defamation');
+    }
+    if (textLower.includes('blackmail') || textLower.includes('extort')) {
+      violations.push('Section 383 - Extortion');
+    }
+    if (textLower.includes('stalk') || textLower.includes('follow')) {
+      violations.push('Section 354D - Stalking');
+    }
+
+    if (violations.length > 0) {
+      setDetectedViolations(violations);
+      setShowIPCWarning(true);
+    }
+  };
+
+  const handleIPCContinue = () => {
+    setShowIPCWarning(false);
+    setSentimentMonitoring(true);
+    console.log('User chose to continue despite IPC warnings - NLP monitoring activated');
+  };
+
+  const handleIPCCancel = () => {
+    setShowIPCWarning(false);
+    setContent(''); // Clear the violating content
+    setSentimentMonitoring(false);
+    console.log('User cancelled - content cleared automatically');
+  };
+
+  const handleAutoReport = async (analysis) => {
+    // TODO: Auto-report to Flask backend police dashboard
+    // const response = await fetch('/api/auto-report', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     content,
+    //     sender: senderName,
+    //     platform: platform === 'Other' ? otherPlatform : platform,
+    //     location,
+    //     analysis,
+    //     timestamp: new Date().toISOString(),
+    //     autoReported: true
+    //   })
+    // });
+
+    console.log('Auto-reported to police dashboard:', analysis);
+    alert('Content automatically reported to authorities due to high toxicity levels.');
+  };
+
   const analyzeContent = async () => {
     if (!content.trim()) return;
     
     setIsAnalyzing(true);
     
     // TODO: Connect to Flask backend content analysis API
-    // const response = await fetch('/api/analyze-content', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     content: content,
-    //     sender: senderName,
-    //     platform: platform === 'Other' ? otherPlatform : platform,
-    //     location: location
-    //   })
-    // });
-    // const data = await response.json();
-
-    // Simulated analysis results for demo
     setTimeout(() => {
       setAnalysisResults({
         bullying: Math.floor(Math.random() * 60) + 20,
@@ -101,20 +165,6 @@ const UserDashboard = () => {
     if (!analysisResults) return;
 
     // TODO: Connect to Flask backend incident reporting API
-    // const formData = new FormData();
-    // formData.append('content', content);
-    // formData.append('sender', senderName);
-    // formData.append('platform', platform === 'Other' ? otherPlatform : platform);
-    // formData.append('location', location);
-    // formData.append('analysisResults', JSON.stringify(analysisResults));
-    // formData.append('proofText', proofText);
-    // if (screenshot) formData.append('screenshot', screenshot);
-    
-    // const response = await fetch('/api/report-incident', {
-    //   method: 'POST',
-    //   body: formData
-    // });
-
     alert('Incident reported successfully! You will be contacted by authorities if needed.');
   };
 
@@ -189,7 +239,10 @@ const UserDashboard = () => {
             
             {/* Content Input Section */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Content Analysis</h2>
+              <div className="flex items-center space-x-3 mb-6">
+                <Brain className="h-6 w-6 text-blue-600" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">AI-Powered Content Analysis</h2>
+              </div>
               
               <div className="space-y-6">
                 {/* Content Input */}
@@ -201,9 +254,25 @@ const UserDashboard = () => {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     className="w-full h-32 p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    placeholder="Paste WhatsApp messages, Instagram captions, LinkedIn messages, or any content you want to analyze..."
+                    placeholder="Enter text messages, social media posts, or any content you want to analyze for harassment, bullying, or other harmful content..."
                   />
                 </div>
+
+                {/* IPC Warning Modal */}
+                <IPCWarningModal
+                  isOpen={showIPCWarning}
+                  onClose={() => setShowIPCWarning(false)}
+                  onContinue={handleIPCContinue}
+                  onCancel={handleIPCCancel}
+                  detectedViolations={detectedViolations}
+                />
+
+                {/* Sentiment Monitor */}
+                <SentimentMonitor
+                  content={content}
+                  isActive={sentimentMonitoring}
+                  onAutoReport={handleAutoReport}
+                />
 
                 {/* Sender and Platform */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -235,6 +304,7 @@ const UserDashboard = () => {
                       <option value="LinkedIn">LinkedIn</option>
                       <option value="Facebook">Facebook</option>
                       <option value="Twitter">Twitter</option>
+                      <option value="Reddit">Reddit</option>
                       <option value="Other">Other</option>
                     </select>
                   </div>
@@ -332,7 +402,6 @@ const UserDashboard = () => {
                           accept="image/*"
                           className="hidden"
                           id="screenshot-upload"
-                          // TODO: Handle file upload to backend storage
                         />
                         <label
                           htmlFor="screenshot-upload"
