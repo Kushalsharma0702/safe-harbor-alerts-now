@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Shield, ArrowLeft, Users, TrendingUp, AlertTriangle, MessageSquare, Search, Filter, Eye, MapPin, Calendar, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import ThemeToggle from '@/components/ThemeToggle';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import GoogleMapsHeatmap from '@/components/GoogleMapsHeatmap';
 
 const PoliceDashboard = () => {
   const [activeTab, setActiveTab] = useState('reports');
@@ -330,44 +330,30 @@ const PoliceDashboard = () => {
         {activeTab === 'heatmap' && (
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Crime Incident Heatmap - Chandigarh</h3>
-              <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                {/* TODO: Integrate Google Maps JavaScript API for live interactive map */}
-                {/* This would be replaced with actual Google Maps implementation */}
-                <div 
-                  className="w-full h-full bg-cover bg-center relative"
-                  style={{
-                    backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8cGF0aCBkPSJNIDIwIDAgTCAwIDAgMCAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZGRkIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDwvcGF0dGVybj4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2Y5ZjlmOSIvPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2Ij5Hb29nbGUgTWFwcyBJbnRlZ3JhdGlvbiBQbGFjZWhvbGRlcjwvdGV4dD4KPC9zdmc+')"
-                  }}
-                >
-                  {/* Simulated heatmap points */}
-                  <div className="absolute top-1/4 left-1/3 w-8 h-8 bg-red-500 rounded-full opacity-70 animate-pulse"></div>
-                  <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-orange-500 rounded-full opacity-70 animate-pulse"></div>
-                  <div className="absolute top-3/4 left-2/3 w-10 h-10 bg-red-600 rounded-full opacity-70 animate-pulse"></div>
-                  <div className="absolute top-1/3 right-1/4 w-4 h-4 bg-yellow-500 rounded-full opacity-70 animate-pulse"></div>
-                  
-                  <div className="absolute top-4 left-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow">
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Legend</h4>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-                        <span className="text-gray-700 dark:text-gray-300">High Risk (10+ cases)</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                        <span className="text-gray-700 dark:text-gray-300">Medium Risk (5-10 cases)</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <span className="text-gray-700 dark:text-gray-300">Low Risk (1-5 cases)</span>
-                      </div>
-                    </div>
-                  </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Live Crime Incident Heatmap - Chandigarh
+              </h3>
+              <GoogleMapsHeatmap />
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+                  <h4 className="font-semibold text-red-800 dark:text-red-200 mb-2">High Risk Areas</h4>
+                  <p className="text-sm text-red-700 dark:text-red-300">
+                    Sector 17, IT Park - 15+ incidents this week
+                  </p>
+                </div>
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                  <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">Medium Risk Areas</h4>
+                  <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                    Sector 22, Sector 35 - 8-14 incidents this week
+                  </p>
+                </div>
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                  <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2">Low Risk Areas</h4>
+                  <p className="text-sm text-green-700 dark:text-green-300">
+                    Residential sectors - Under 8 incidents this week
+                  </p>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-                * This is a placeholder visualization. Full Google Maps integration with real-time heatmap data would be implemented using the Google Maps JavaScript API.
-              </p>
             </div>
           </div>
         )}
@@ -423,7 +409,7 @@ const PoliceDashboard = () => {
               <div className="flex-1 p-4 space-y-4 overflow-y-auto">
                 <div className="flex space-x-3">
                   <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                    <Users className="h-4 w-4 text-white" />
+                    <Users className="h-4 w-4" />
                   </div>
                   <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs">
                     <div className="text-sm text-gray-900 dark:text-white">Hello, I need help with my harassment report.</div>
